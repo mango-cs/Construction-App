@@ -1,0 +1,312 @@
+## Project: Construction Site Progress Dashboard
+
+**Objective:** Build a flexible, mobile-first React app for construction site management with role-based access, photo/video updates, automated WhatsApp reminders, bilingual support (English/Telugu), and incentive tracking. The app works as both a basic update system and full project management tool based on admin configuration.
+
+---
+
+### Phase 1: Core App Foundation (1 week)
+
+1. **Project Setup & Authentication**
+   * React + Vite mobile-first app
+   * Firebase Authentication (simple email/password)
+   * JWT token management
+   * Role-based routing (Admin, Manager)
+
+2. **Basic Update System (Always Available)**
+   * Create updates with title, description
+   * Photo upload (5 photos max, auto-compress to 1MB)
+   * Video upload (2 minutes max, 720p compression)
+   * Firebase Storage integration
+   * Timeline view of all updates
+
+3. **Database Structure (Firebase Firestore)**
+   ```javascript
+   // Users Collection
+   users: {
+     userId: {
+       name: string,
+       phone: string,
+       email: string,
+       role: 'admin' | 'manager',
+       projectId: string,
+       createdAt: timestamp
+     }
+   }
+   
+   // App Configuration
+   appConfig: {
+     featureProjects: boolean,
+     featureTasks: boolean,
+     featureIncentives: boolean,
+     featureReminders: boolean,
+     workHoursStart: string,
+     workHoursEnd: string,
+     reminderDays: string[]
+   }
+   
+   // Updates Collection (core feature)
+   updates: {
+     updateId: {
+       userId: string,
+       title: string,
+       description: string,
+       projectId: string,
+       taskId: string,
+       photoCount: number,
+       videoCount: number,
+       createdAt: timestamp
+     }
+   }
+   
+   // Media Collection
+   media: {
+     mediaId: {
+       updateId: string,
+       type: 'photo' | 'video',
+       firebaseUrl: string,
+       thumbnailUrl: string,
+       filename: string,
+       size: number,
+       duration: number,
+       createdAt: timestamp
+     }
+   }
+   ```
+
+**Deliverables:** Working app with Firebase authentication, real-time updates, and media upload.
+
+---
+
+### Phase 2: Admin Configuration & Optional Features (1 week)
+
+1. **Admin Configuration Panel**
+   * Feature toggle system
+   * Work hours configuration
+   * User management interface
+   * App settings dashboard
+
+2. **Conditional Features (Admin-Enabled)**
+   * Project management (create, edit, assign)
+   * Task assignment system
+   * Incentive goal setting
+   * WhatsApp reminder setup
+
+3. **Flexible UI Rendering**
+   * Managers see basic features always
+   * Advanced features appear based on admin settings
+   * Responsive design for mobile use
+
+**Deliverables:** Configurable app with Firebase real-time features and admin controls.
+
+---
+
+### Phase 3: Project Management & Task System (1 week)
+
+1. **Project Management (Optional)**
+   * Create/edit projects
+   * Assign managers to projects
+   * Project status tracking
+   * Progress visualization
+
+2. **Task Assignment System (Optional)**
+   * Create tasks with descriptions
+   * Assign to specific managers
+   * Task status updates
+   * Due date management
+
+3. **Enhanced Update System**
+   * Link updates to projects/tasks
+   * Progress tracking per project
+   * Completion percentage calculation
+
+**Deliverables:** Real-time project and task management with Firebase Firestore.
+
+---
+
+### Phase 4: Incentive System & WhatsApp Integration (1 week)
+
+1. **Incentive Goal Management**
+   * Set weekly/monthly targets
+   * Progress tracking with clean UI
+   * Achievement notifications
+   * Reward amount display
+
+2. **Clean Incentive Display**
+   ```
+   ┌─────────────────────────────────────┐
+   │ 🎯 WEEKLY GOAL                      │
+   │                                     │
+   │ Target: Complete 20 tasks           │
+   │ Reward: ₹5,000                      │
+   │                                     │
+   │ Progress: 15/20 tasks completed     │
+   │ [███████████████░░░] 75%            │
+   │                                     │
+   │ Status: On track! 🎯                │
+   └─────────────────────────────────────┘
+   ```
+
+3. **WhatsApp Integration**
+   * Twilio WhatsApp Business API
+   * Customizable work hours
+   * Template messages (Telugu/English)
+   * Automated reminders during work hours only
+
+**Deliverables:** Real-time incentive tracking and automated WhatsApp reminders.
+
+---
+
+### Phase 5: Admin Dashboard & Analytics (1 week)
+
+1. **Master Dashboard**
+   * Overview of all projects
+   * User activity tracking
+   * Recent updates feed
+   * Quick statistics
+
+2. **Progress Analytics**
+   * Project completion rates
+   * Manager performance metrics
+   * Time-based progress charts
+   * Export functionality
+
+3. **Home Insights Page**
+   * Key performance indicators
+   * Upcoming deadlines
+   * Incentive goal progress
+   * System health metrics
+
+**Deliverables:** Real-time admin dashboard with live analytics and insights.
+
+---
+
+### Phase 6: Testing, Deployment & Handover (3-4 days)
+
+1. **Testing & Optimization**
+   * Mobile responsiveness testing
+   * Firebase integration validation
+   * WhatsApp reminder testing
+   * Performance optimization
+
+2. **Deployment**
+   * Vercel deployment (frontend)
+   * Railway deployment (backend)
+   * Firebase configuration
+   * Environment setup
+
+3. **Documentation & Handover**
+   * Admin user guide
+   * Manager app guide
+   * Configuration instructions
+   * Support contact information
+
+**Deliverables:** Deployed Firebase app with real-time features ready for production.
+
+---
+
+## Technical Stack
+
+### Frontend:
+- **React 18** + **Vite** (fast development)
+- **Tailwind CSS** (mobile-responsive design)
+- **React Router** (navigation)
+- **React Query** (data fetching)
+- **react-i18next** (English/Telugu)
+
+### Backend:
+- **Firebase Firestore** (real-time database)
+- **Firebase Storage** (photos/videos)
+- **Firebase Auth** (phone/email authentication)
+- **Firebase Functions** (serverless API)
+- **Twilio WhatsApp API** (reminders)
+
+### Deployment:
+- **Vercel** (frontend - free tier)
+- **Firebase** (backend - free tier)
+
+---
+
+## Project Data (Your 6 Sites)
+
+```json
+[
+  {
+    "project": "China Town",
+    "percent_complete": 50,
+    "current_phase": "Roof laid",
+    "next_action": "Continue roofing to full coverage",
+    "status": "active"
+  },
+  {
+    "project": "Unos (dismantling)",
+    "percent_complete": null,
+    "current_phase": "Roof removed",
+    "next_action": "Strip remaining fixtures; prep for new build",
+    "status": "active"
+  },
+  {
+    "project": "Mango (big basket structure)",
+    "percent_complete": 50,
+    "current_phase": "Frame up to basket level",
+    "next_action": "Finish steel framing and bracing",
+    "status": "active"
+  },
+  {
+    "project": "Mkh (dismantling)",
+    "percent_complete": null,
+    "current_phase": "Roof removed; structure pending demo",
+    "next_action": "Dismantle main structure; clear site for G+2 rebuild",
+    "status": "active"
+  },
+  {
+    "project": "Sandhya Hotel (AMP‑M)",
+    "percent_complete": 5,
+    "current_phase": "Foundation dug & laid to ground floor",
+    "next_action": "Complete all foundation footings; waterproofing",
+    "status": "active"
+  },
+  {
+    "project": "Sandhya Hospital (Petrol Bunk)",
+    "percent_complete": 5,
+    "current_phase": "Foundation dug",
+    "next_action": "Lay foundation bases and start CNC formwork",
+    "status": "active"
+  }
+]
+```
+
+---
+
+## Key Features Summary
+
+### Always Available:
+- ✅ User authentication
+- ✅ Create updates with photos/videos
+- ✅ Timeline view
+- ✅ Basic dashboard
+
+### Admin-Configurable:
+- 🔄 Project management
+- 🔄 Task assignment
+- 🔄 Incentive system
+- 🔄 WhatsApp reminders
+- 🔄 Work hours configuration
+
+### Media Specifications:
+- 📸 **Photos**: 5 per update, auto-compress to 1MB
+- 🎥 **Videos**: 2 minutes max, 720p compression
+- ☁️ **Storage**: Firebase Cloud Storage
+- 📱 **Mobile-optimized** upload and viewing
+
+### User Roles:
+- 👑 **Admin** (5 users): Full access, configuration, analytics, user management
+- 👨‍💼 **Manager**: Create updates, view progress, manage assigned projects
+
+### Languages:
+- 🇮🇳 **Telugu** (primary)
+- 🇺🇸 **English** (secondary)
+- 🔄 Language toggle in header
+
+---
+
+This plan delivers a **professional, flexible construction management app** that can scale from basic updates to full project management based on your needs.
