@@ -8,7 +8,7 @@ interface UpdatePageProps {
   user: User;
 }
 
-const UpdatePage: React.FC<UpdatePageProps> = ({ user }) => {
+const UpdatePage: React.FC<UpdatePageProps> = ({ user: _ }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState<UpdateFormData>({
     title: '',

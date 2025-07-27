@@ -117,7 +117,7 @@ export const isAdmin = (user: User | null): boolean => {
 // Check if user can access feature based on app config
 export const canAccessFeature = (
   user: User | null, 
-  feature: keyof Pick<AppConfig, 'featureProjects' | 'featureTasks' | 'featureIncentives' | 'featureReminders'>
+  _feature: keyof Pick<AppConfig, 'featureProjects' | 'featureTasks' | 'featureIncentives' | 'featureReminders'>
 ): boolean => {
   if (!user) return false;
   if (isAdmin(user)) return true;
@@ -188,7 +188,7 @@ export const testFirebaseConnection = async (): Promise<void> => {
     console.log('Current user:', auth.currentUser);
     
     // Test if we can read from Firestore
-    const testDoc = doc(db, 'test', 'connection');
+    // const testDoc = doc(db, 'test', 'connection');
     console.log('Firebase connection test completed');
   } catch (error) {
     console.error('Firebase connection test failed:', error);

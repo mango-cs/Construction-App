@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, BarChart3, TrendingUp, Calendar, Target } from 'lucide-react';
+import { ArrowLeft, TrendingUp, Calendar, Target } from 'lucide-react';
 import type { User } from '../types';
 
 interface ProgressPageProps {

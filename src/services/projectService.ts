@@ -235,7 +235,7 @@ export const getProjectImages = async (projectId: string): Promise<string[]> => 
  * Delete specific images from a project
  */
 export const deleteProjectImages = async (
-  projectId: string, 
+  _projectId: string, 
   imageUrls: string[]
 ): Promise<void> => {
   try {

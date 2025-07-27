@@ -8,7 +8,7 @@ interface AdminPageProps {
   user: User;
 }
 
-const AdminPage: React.FC<AdminPageProps> = ({ user }) => {
+const AdminPage: React.FC<AdminPageProps> = ({ user: _ }) => {
   const navigate = useNavigate();
   const [importing, setImporting] = useState(false);
 
