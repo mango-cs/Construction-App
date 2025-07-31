@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { onAuthStateChange } from './services/auth';
 import type { AuthState } from './types';
+import { LanguageProvider } from './contexts/LanguageContext';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import UpdatePage from './pages/UpdatePage';
@@ -42,54 +43,56 @@ function App() {
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Router>
-        <div className={authState.user?.role === 'admin' ? 'dashboard-container' : 'mobile-container'}>
-          <Routes>
-            <Route 
-              path="/login" 
-              element={
-                authState.user ? <Navigate to="/dashboard" replace /> : <LoginPage />
-              } 
-            />
-            <Route 
-              path="/dashboard" 
-              element={
-                authState.user ? <DashboardPage user={authState.user} /> : <Navigate to="/login" replace />
-              } 
-            />
-            <Route 
-              path="/update" 
-              element={
-                authState.user ? <UpdatePage user={authState.user} /> : <Navigate to="/login" replace />
-              } 
-            />
-            <Route 
-              path="/projects" 
-              element={
-                authState.user ? <ProjectsPage user={authState.user} /> : <Navigate to="/login" replace />
-              } 
-            />
-            <Route 
-              path="/progress" 
-              element={
-                authState.user ? <ProgressPage user={authState.user} /> : <Navigate to="/login" replace />
-              } 
-            />
-            <Route 
-              path="/admin" 
-              element={
-                authState.user?.role === 'admin' ? <AdminPage user={authState.user} /> : <Navigate to="/dashboard" replace />
-              } 
-            />
-            <Route 
-              path="/" 
-              element={<Navigate to={authState.user ? "/dashboard" : "/login"} replace />} 
-            />
-          </Routes>
-        </div>
-      </Router>
-    </QueryClientProvider>
+    <LanguageProvider>
+      <QueryClientProvider client={queryClient}>
+        <Router>
+          <div className={authState.user?.role === 'admin' ? 'dashboard-container' : 'mobile-container'}>
+            <Routes>
+              <Route 
+                path="/login" 
+                element={
+                  authState.user ? <Navigate to="/dashboard" replace /> : <LoginPage />
+                } 
+              />
+              <Route 
+                path="/dashboard" 
+                element={
+                  authState.user ? <DashboardPage user={authState.user} /> : <Navigate to="/login" replace />
+                } 
+              />
+              <Route 
+                path="/update" 
+                element={
+                  authState.user ? <UpdatePage user={authState.user} /> : <Navigate to="/login" replace />
+                } 
+              />
+              <Route 
+                path="/projects" 
+                element={
+                  authState.user ? <ProjectsPage user={authState.user} /> : <Navigate to="/login" replace />
+                } 
+              />
+              <Route 
+                path="/progress" 
+                element={
+                  authState.user ? <ProgressPage user={authState.user} /> : <Navigate to="/login" replace />
+                } 
+              />
+              <Route 
+                path="/admin" 
+                element={
+                  authState.user?.role === 'admin' ? <AdminPage user={authState.user} /> : <Navigate to="/dashboard" replace />
+                } 
+              />
+              <Route 
+                path="/" 
+                element={<Navigate to={authState.user ? "/dashboard" : "/login"} replace />} 
+              />
+            </Routes>
+          </div>
+        </Router>
+      </QueryClientProvider>
+    </LanguageProvider>
   );
 }
 

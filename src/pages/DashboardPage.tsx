@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { signOutUser } from '../services/auth';
 import type { User } from '../types';
+import LanguageToggle from '../components/LanguageToggle';
+import { T } from '../components/TranslatedText';
 import { 
   Plus, 
   FolderOpen, 
@@ -79,10 +81,10 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ user }) => {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-xl font-semibold text-gray-900">
-                Dashboard
+                <T>Dashboard</T>
               </h1>
               <p className="text-sm text-gray-600">
-                Welcome back, {user.name}
+                <T>Welcome</T>, {user.name}
               </p>
             </div>
             <div className="flex items-center space-x-3">
@@ -92,6 +94,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ user }) => {
                   {user.role}
                 </span>
               </div>
+              <LanguageToggle size="sm" />
               <button
                 onClick={handleSignOut}
                 className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
@@ -113,7 +116,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ user }) => {
                 {user.role === 'admin' ? '6' : '1'}
               </div>
               <div className="text-sm text-gray-600">
-                {user.role === 'admin' ? 'All Projects' : 'My Project'}
+                <T>{user.role === 'admin' ? 'All Projects' : 'My Project'}</T>
               </div>
             </div>
           </div>
@@ -122,7 +125,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ user }) => {
               <div className="text-2xl font-bold text-success-600">
                 {user.role === 'admin' ? '12' : '3'}
               </div>
-              <div className="text-sm text-gray-600">Updates Today</div>
+              <div className="text-sm text-gray-600"><T>Updates Today</T></div>
             </div>
           </div>
         </div>
@@ -141,10 +144,10 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ user }) => {
                 </div>
                 <div className="flex-1">
                   <h3 className="text-lg font-medium text-gray-900">
-                    {item.title}
+                    <T>{item.title}</T>
                   </h3>
                   <p className="text-sm text-gray-600">
-                    {item.description}
+                    <T>{item.description}</T>
                   </p>
                 </div>
                 <div className="text-gray-400">
