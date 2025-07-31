@@ -8,9 +8,17 @@
 ---
 
 ## 🌐 Live Deployment
-- **🔗 Live App**: https://construction-project-burr83roq-mangos-projects-5b23a0be.vercel.app
-- **📊 Vercel Dashboard**: https://vercel.com/mangos-projects-5b23a0be/construction-project
+- **🔥 Primary (Firebase)**: https://construction-app-7ee8a.web.app
+- **📊 Firebase Console**: https://console.firebase.google.com/project/construction-app-7ee8a/overview
 - **💻 GitHub Repository**: https://github.com/mango-cs/Construction-App
+- **⚡ Backup (Vercel)**: https://construction-project-4ik75o3vl-mangos-projects-5b23a0be.vercel.app
+
+### **Complete Firebase Ecosystem** 🔥
+- ✅ **Authentication**: Firebase Auth
+- ✅ **Database**: Firestore 
+- ✅ **Storage**: Firebase Storage
+- ✅ **Hosting**: Firebase Hosting
+- ✅ **Analytics**: Firebase Analytics
 
 ---
 
