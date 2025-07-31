@@ -4,6 +4,7 @@ import { ArrowLeft, MapPin, Calendar, Plus, Edit, Trash2, Camera, Eye, Settings 
 import type { User, Project } from '../types';
 import { getAllProjects, createProject, updateProject, deleteProject } from '../services/projectService';
 import LoadingSpinner from '../components/LoadingSpinner';
+import ProjectAssignment from '../components/ProjectAssignment';
 
 interface ProjectsPageProps {
   user: User;
@@ -55,9 +56,11 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ user }) => {
     if (user.role === 'admin') {
       return allProjects; // Admin sees all projects
     } else {
-      // Managers see only their assigned project
-      const assignedProject = allProjects.find(p => p.id === user.projectId);
-      return assignedProject ? [assignedProject] : [];
+      // Managers see only projects assigned to them
+      return allProjects.filter(project => 
+        project.assignedTo?.userId === user.id ||
+        project.id === user.projectId // Backward compatibility with old assignment system
+      );
     }
   };
 
@@ -464,6 +467,29 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ user }) => {
                   <p className="text-sm text-gray-600 bg-blue-50 p-2 rounded border-l-2 border-blue-200">
                     {project.nextAction}
                   </p>
+                </div>
+
+                {/* Site Head Assignment */}
+                <div>
+                  <h4 className="text-sm font-medium text-gray-900 mb-2">
+                    Site Head Assignment
+                  </h4>
+                  <ProjectAssignment
+                    project={project}
+                    onAssignmentUpdate={() => {
+                      // Reload projects after assignment change
+                      const loadProjects = async () => {
+                        try {
+                          const projects = await getAllProjects();
+                          setAllProjects(projects);
+                        } catch (err) {
+                          console.error('Error reloading projects:', err);
+                        }
+                      };
+                      loadProjects();
+                    }}
+                    isAdmin={user.role === 'admin'}
+                  />
                 </div>
 
                 {/* Last Updated */}

@@ -20,6 +20,11 @@ export interface Project {
   currentPhase: string;
   nextAction: string;
   images?: string[]; // Array of image URLs
+  assignedTo?: {
+    userId: string;
+    userName: string;
+    userEmail: string;
+  }; // Site head assigned to this project
   createdAt: Date;
   updatedAt: Date;
 }

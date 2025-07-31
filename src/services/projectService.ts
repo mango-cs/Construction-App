@@ -8,6 +8,7 @@ import {
   getDoc,
   query, 
   orderBy,
+  where,
   Timestamp 
 } from 'firebase/firestore';
 import { 
@@ -364,5 +365,105 @@ export const importRealProjects = async (): Promise<void> => {
   } catch (error) {
     console.error('❌ Error importing projects:', error);
     throw new Error('Failed to import real projects');
+  }
+};
+
+/**
+ * Assign a site head to a project
+ */
+export const assignSiteHeadToProject = async (
+  projectId: string, 
+  siteHead: { userId: string; userName: string; userEmail: string }
+): Promise<void> => {
+  try {
+    const projectRef = doc(db, 'projects', projectId);
+    await updateDoc(projectRef, {
+      assignedTo: siteHead,
+      updatedAt: new Date()
+    });
+
+    // Also update the user's projectId field for backward compatibility
+    const userRef = doc(db, 'users', siteHead.userId);
+    await updateDoc(userRef, {
+      projectId: projectId
+    });
+
+    console.log(`✅ Assigned ${siteHead.userName} to project ${projectId}`);
+  } catch (error) {
+    console.error('❌ Error assigning site head to project:', error);
+    throw new Error('Failed to assign site head to project');
+  }
+};
+
+/**
+ * Remove site head assignment from a project
+ */
+export const removeSiteHeadFromProject = async (projectId: string): Promise<void> => {
+  try {
+    const projectRef = doc(db, 'projects', projectId);
+    
+    // Get current project data to find assigned user
+    const projectDoc = await getDoc(projectRef);
+    if (projectDoc.exists()) {
+      const projectData = projectDoc.data();
+      if (projectData.assignedTo?.userId) {
+        // Remove user's project assignment
+        const userRef = doc(db, 'users', projectData.assignedTo.userId);
+        await updateDoc(userRef, {
+          projectId: null
+        });
+      }
+    }
+
+    // Remove assignment from project
+    await updateDoc(projectRef, {
+      assignedTo: null,
+      updatedAt: new Date()
+    });
+
+    console.log(`✅ Removed site head assignment from project ${projectId}`);
+  } catch (error) {
+    console.error('❌ Error removing site head from project:', error);
+    throw new Error('Failed to remove site head from project');
+  }
+};
+
+/**
+ * Get projects assigned to a specific user
+ */
+export const getProjectsForUser = async (userId: string): Promise<Project[]> => {
+  try {
+    const projectsRef = collection(db, 'projects');
+    const q = query(
+      projectsRef,
+      where('assignedTo.userId', '==', userId),
+      orderBy('updatedAt', 'desc')
+    );
+    
+    const querySnapshot = await getDocs(q);
+    const projects: Project[] = [];
+    
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      projects.push({
+        id: doc.id,
+        name: data.name,
+        location: data.location,
+        plannedStructure: data.plannedStructure,
+        status: data.status,
+        percentComplete: data.percentComplete,
+        currentPhase: data.currentPhase,
+        nextAction: data.nextAction,
+        images: data.images || [],
+        assignedTo: data.assignedTo,
+        createdAt: data.createdAt?.toDate() || new Date(),
+        updatedAt: data.updatedAt?.toDate() || new Date()
+      });
+    });
+    
+    return projects;
+  } catch (error) {
+    console.error('❌ Error fetching projects for user:', error);
+    throw new Error('Failed to fetch user projects');
   }
 }; 
