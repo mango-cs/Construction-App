@@ -5,6 +5,7 @@ import type { User, Project } from '../types';
 import { getAllProjects, createProject, updateProject, deleteProject } from '../services/projectService';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ProjectAssignment from '../components/ProjectAssignment';
+import { T, TD } from '../components/TranslatedText';
 
 interface ProjectsPageProps {
   user: User;
@@ -42,7 +43,7 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ user }) => {
         setAllProjects(projects);
       } catch (err) {
         console.error('Error loading projects:', err);
-        setError('Failed to load projects. Please try again.');
+        setError('Failed to load projects');
       } finally {
         setLoading(false);
       }
@@ -258,10 +259,10 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ user }) => {
               </button>
               <div>
                 <h1 className="text-xl font-semibold text-gray-900">
-                  {user.role === 'admin' ? 'Manage Projects' : 'My Projects'}
+                  <T>{user.role === 'admin' ? 'Manage Projects' : 'My Projects'}</T>
                 </h1>
                 <p className="text-sm text-gray-600">
-                  {user.role === 'admin' ? 'Create, edit, and manage all projects' : 'View your assigned projects'}
+                  <T>{user.role === 'admin' ? 'Create, edit, and manage all projects' : 'View your assigned projects'}</T>
                 </p>
               </div>
             </div>
@@ -271,7 +272,7 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ user }) => {
                 className="btn-primary flex items-center space-x-2"
               >
                 <Plus className="w-4 h-4" />
-                <span>Add Project</span>
+                <span><T>Add Project</T></span>
               </button>
             )}
           </div>
@@ -413,7 +414,7 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ user }) => {
               <div className="space-y-3">
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-1">
-                    {project.name}
+                    <TD>{project.name}</TD>
                   </h3>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2 text-sm text-gray-600">
@@ -432,7 +433,7 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ user }) => {
                 {project.percentComplete !== null && (
                   <div>
                     <div className="flex justify-between text-sm text-gray-600 mb-1">
-                      <span>Progress</span>
+                      <span><T>Progress</T></span>
                       <span className="font-medium">{project.percentComplete}%</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">
@@ -452,27 +453,27 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ user }) => {
                 <div>
                   <h4 className="text-sm font-medium text-gray-900 mb-1 flex items-center">
                     <Settings className="w-3 h-3 mr-1" />
-                    Current Phase
+                    <T>Current Phase</T>
                   </h4>
                   <p className="text-sm text-gray-600 bg-gray-50 p-2 rounded">
-                    {project.currentPhase}
+                    <TD>{project.currentPhase}</TD>
                   </p>
                 </div>
 
                 {/* Next Action */}
                 <div>
                   <h4 className="text-sm font-medium text-gray-900 mb-1">
-                    Next Action
+                    <T>Next Action</T>
                   </h4>
                   <p className="text-sm text-gray-600 bg-blue-50 p-2 rounded border-l-2 border-blue-200">
-                    {project.nextAction}
+                    <TD>{project.nextAction}</TD>
                   </p>
                 </div>
 
                 {/* Site Head Assignment */}
                 <div>
                   <h4 className="text-sm font-medium text-gray-900 mb-2">
-                    Site Head Assignment
+                    <T>Site Head Assignment</T>
                   </h4>
                   <ProjectAssignment
                     project={project}
@@ -493,14 +494,14 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ user }) => {
                 </div>
 
                 {/* Last Updated */}
-                <div className="flex items-center justify-between text-xs text-gray-500 pt-2 border-t border-gray-100">
+                                  <div className="flex items-center justify-between text-xs text-gray-500 pt-2 border-t border-gray-100">
                   <div className="flex items-center space-x-1">
                     <Calendar className="w-3 h-3" />
-                    <span>Updated: {project.updatedAt.toLocaleDateString()}</span>
+                    <span><T>Updated</T>: {project.updatedAt.toLocaleDateString()}</span>
                   </div>
                   <button className="text-blue-600 hover:text-blue-800 flex items-center space-x-1">
                     <Eye className="w-3 h-3" />
-                    <span>View Details</span>
+                    <span><T>View Details</T></span>
                   </button>
                 </div>
               </div>
@@ -529,10 +530,10 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ user }) => {
       {showAddModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 overflow-y-auto">
           <div className="bg-white rounded-lg max-w-2xl w-full p-6 max-h-[90vh] overflow-y-auto my-8">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Add New Project</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4"><T>Add New Project</T></h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Project Name</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1"><T>Project Name</T></label>
                 <input 
                   type="text" 
                   className="input-field" 
@@ -542,7 +543,7 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ user }) => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1"><T>Location</T></label>
                 <input 
                   type="text" 
                   className="input-field" 
@@ -552,7 +553,7 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ user }) => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Planned Structure</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1"><T>Planned Structure</T></label>
                 <input 
                   type="text" 
                   className="input-field" 
